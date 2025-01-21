@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import {t} from "i18next";
+import {useInfos, useStore} from "../store.js";
 
 export const DestinationServer = () => {
-    // Source Server states
-    const [SourceHost, setSourceHost] = useState("");
-    const [SourceEmail, setSourceEmail] = useState("");
-    const [SourcePassword, setSourcePassword] = useState("");
+    // Destination Server states
+    const [DestinationHost, setDestinationHost] = useState("");
+    const [DestinationEmail, setDestinationEmail] = useState("");
+    const [DestinationPassword, setDestinationPassword] = useState("");
 
     // Error states
     const [errors, setErrors] = useState({
@@ -61,16 +62,22 @@ export const DestinationServer = () => {
         return true;
     };
 
+
+    const  {setEtape} = useStore()
+    const {setHoteDestination,setMailDestination,setPassewordDestination} = useInfos()
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const isHostValid = validateHost(SourceHost);
-        const isEmailValid = validateEmail(SourceEmail);
-        const isPasswordValid = validatePassword(SourcePassword);
+        const isHostValid = validateHost(DestinationHost);
+        const isEmailValid = validateEmail(DestinationEmail);
+        const isPasswordValid = validatePassword(DestinationPassword);
 
         if (isHostValid && isEmailValid && isPasswordValid) {
-            // Proceed with form submission
-            console.log("Form is valid, proceeding...");
+            setEtape(2)
+            setHoteDestination(DestinationHost)
+            setMailDestination(DestinationEmail)
+           setPassewordDestination(DestinationPassword)
         }
     };
 
@@ -85,9 +92,9 @@ export const DestinationServer = () => {
                             required
                             type="text"
                             placeholder={t("placeholderinputehost")}
-                            value={SourceHost}
+                            value={DestinationHost}
                             onChange={(e) => {
-                                setSourceHost(e.target.value);
+                                setDestinationHost(e.target.value);
                                 validateHost(e.target.value);
                             }}
                             className={`w-full p-2 border rounded bg-gray-800 text-white border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
@@ -104,9 +111,9 @@ export const DestinationServer = () => {
                         <input
                             required
                             type="email"
-                            value={SourceEmail}
+                            value={DestinationEmail}
                             onChange={(e) => {
-                                setSourceEmail(e.target.value);
+                                setDestinationEmail(e.target.value);
                                 validateEmail(e.target.value);
                             }}
                             placeholder={t("placeholderinputeemail")}
@@ -124,9 +131,9 @@ export const DestinationServer = () => {
                         <input
                             required
                             type="password"
-                            value={SourcePassword}
+                            value={DestinationPassword}
                             onChange={(e) => {
-                                setSourcePassword(e.target.value);
+                                setDestinationPassword(e.target.value);
                                 validatePassword(e.target.value);
                             }}
                             placeholder={t("placeholderinputePassword")}

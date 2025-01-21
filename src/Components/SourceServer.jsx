@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {t} from "i18next";
-import {useStore} from "../store.js";
+import {useInfos, useStore} from "../store.js";
 
 export const SourceServer = () => {
     // Source Server states
@@ -9,6 +9,7 @@ export const SourceServer = () => {
     const [SourcePassword, setSourcePassword] = useState("");
 
     const {setEtape} = useStore()
+    const {setHoteSource,setMailSource,setPassewordSource} = useInfos()
 
     // Error states
     const [errors, setErrors] = useState({
@@ -73,7 +74,9 @@ export const SourceServer = () => {
 
         if (isHostValid && isEmailValid && isPasswordValid) {
             setEtape(1)
-
+            setHoteSource(SourceHost)
+            setMailSource(SourceEmail)
+            setPassewordSource(SourcePassword)
         }
     };
 

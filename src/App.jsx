@@ -3,13 +3,14 @@ import './i18n.js'
 import './App.css'
 import ReactCountryFlag from "react-country-flag"
 
+
 import {useStore} from "./store.js";
 
 
 //components
 import {SourceServer} from "./Components/SourceServer.jsx";
 import {DestinationServer} from "./Components/DestinationServer.jsx";
-
+import {Finalization} from "./Components/Finalization.jsx";
 //translation
 import {t} from "i18next";
 import {useTranslation} from "react-i18next";
@@ -23,7 +24,7 @@ function App() {
      const {Etape} = useStore()
 
   return (
-      <div className={"bg-[#0d1117] h-screen w-screen"}>
+      <div className={"bg-[#0d1117] min-h-screen w-screen"}>
           <div className="navbar bg-[#010409] rounded-box">
               <div className="flex-1 px-2 lg:flex-none">
                   <a className="text-lg font-bold text-white">IMAP Swap</a>
@@ -70,9 +71,9 @@ function App() {
                           <div className="flex justify-center w-full mb-8">
 
                               <ol className="flex items-center justify-center w-full px-2 py-4 sm:p-6 space-x-2 sm:space-x-4 text-xs sm:text-sm md:text-lg font-medium text-center text-white">
-                                  <li className="flex items-center text-[#BB86FC]">
+                                  <li className={`flex items-center  ${Etape === 0 ? "text-[#BB86FC]":Etape >= 1 ? "text-green-500" : "text-white" } `}>
         <span
-            className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs sm:text-[#BB86FC] border-2 border-[#BB86FC] rounded-full shrink-0">
+            className={`flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs ${Etape === 0 ? "text-[#BB86FC] border-[#BB86FC]":Etape >= 1 ? "text-green-500 border-green-500" : "text-white border-white" }  border-2  rounded-full shrink-0`}>
           1
         </span>
                                       Source
@@ -93,9 +94,9 @@ function App() {
                                           />
                                       </svg>
                                   </li>
-                                  <li className="flex items-center">
+                                  <li className={`flex items-center  ${Etape === 1 ? "text-[#BB86FC]":Etape >= 2 ? "text-green-500" : "text-white" } `}>
         <span
-            className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs sm:text-white border-2 border-white rounded-full shrink-0">
+            className={`flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs ${Etape === 1 ? "text-[#BB86FC] border-[#BB86FC]":Etape >= 2 ? "text-green-500 border-green-500" : "text-white border-white" }  border-2  rounded-full shrink-0`}>
           2
         </span>
                                       Destination
@@ -116,9 +117,9 @@ function App() {
                                           />
                                       </svg>
                                   </li>
-                                  <li className="flex items-center">
+                                  <li className={`flex items-center  ${Etape === 2 ? "text-[#BB86FC]":Etape >= 3 ? "text-green-500" : "text-white" } `}>
         <span
-            className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs sm:text-base border-2 border-gray-500 rounded-full shrink-0">
+            className={`flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs ${Etape === 2 ? "text-[#BB86FC] border-[#BB86FC]":Etape >=3 ? "text-green-500 border-green-500" : "text-white border-white" }  border-2  rounded-full shrink-0`}>
           3
         </span>
                                       Finalization
@@ -133,10 +134,13 @@ function App() {
                           {Etape === 1 &&
                               <DestinationServer/>
                           }
+                          {Etape === 2 &&
+                             <Finalization/>
+                          }
                       </div>
 
-                  </div>
-                  )
-                  }
+      </div>
+  )
+}
 
-                  export default App
+export default App
