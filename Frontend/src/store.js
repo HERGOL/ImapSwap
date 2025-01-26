@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 const useStore = create((set)=>({
-   Etape:2,
+   Etape:0,
     setEtape:(id)=> set({Etape:id})
 }))
 

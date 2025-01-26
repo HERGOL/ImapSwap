@@ -134,7 +134,7 @@ function App() {
                           {Etape === 1 &&
                               <DestinationServer/>
                           }
-                          {Etape === 2 &&
+                          {Etape >= 2 &&
                              <Finalization/>
                           }
                       </div>
