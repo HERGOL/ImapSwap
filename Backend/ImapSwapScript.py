@@ -220,6 +220,10 @@ def get_progress(task_id):
         return jsonify({"error": "Task not found."}), 404
     return jsonify(progress)
 
+@app.route('/ping', methods=['GET'])
+def ping():
+    return jsonify({'status': 'ok'}), 200
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
