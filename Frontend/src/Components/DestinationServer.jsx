@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {t} from "i18next";
 import {useInfos, useStore} from "../store.js";
+import Turnstile from "react-turnstile";
 
 export const DestinationServer = () => {
     // Destination Server states
@@ -12,14 +13,16 @@ export const DestinationServer = () => {
     const [errors, setErrors] = useState({
         host: false,
         email: false,
-        password: false
+        password: false,
+        captcha:false
     });
 
     // Error messages
     const [errorMessages, setErrorMessages] = useState({
         host: "",
         email: "",
-        password: ""
+        password: "",
+        captcha:""
     });
 
     // Validation functions
@@ -62,6 +65,20 @@ export const DestinationServer = () => {
         return true;
     };
 
+    const [isCaptchaValid,setIsCaptchaValid] = useState(false)
+    const validateCaptcha = (value) => {
+        if (!value){
+            setErrors(prevState => ({...prevState,captcha: true}));
+            setErrorMessages(prevState=>({...prevState,captcha: `${t("captcha")}`}))
+            setIsCaptchaValid(false)
+            return false;
+        }
+            setErrors(prevState => ({...prevState,captcha: false}));
+            setErrorMessages(prevState => ({...prevState,captcha: ""}))
+            setIsCaptchaValid(true)
+        return true;
+    }
+
 
     const  {setEtape} = useStore()
     const {setHoteDestination,setMailDestination,setPassewordDestination} = useInfos()
@@ -73,13 +90,16 @@ export const DestinationServer = () => {
         const isEmailValid = validateEmail(DestinationEmail);
         const isPasswordValid = validatePassword(DestinationPassword);
 
-        if (isHostValid && isEmailValid && isPasswordValid) {
+
+        if (isHostValid && isEmailValid && isPasswordValid && isCaptchaValid) {
             setEtape(2)
             setHoteDestination(DestinationHost)
             setMailDestination(DestinationEmail)
            setPassewordDestination(DestinationPassword)
         }
     };
+
+    // cloudflare
 
     return (
         <form onSubmit={handleSubmit}>
@@ -145,7 +165,12 @@ export const DestinationServer = () => {
                             <p className="text-red-500 text-sm mt-1">{errorMessages.password}</p>
                         )}
                     </div>
-
+                    <Turnstile
+                        sitekey="0x4AAAAAAA7b0rabWTW8yZcv"
+                        onVerify={() =>validateCaptcha(true) }/>
+                    {errors.captcha && (
+                        <p className="text-red-500 text-sm mt-1"> test{errorMessages.captcha}</p>
+                    )}
                     <button
                         type="submit"
                         className="w-full py-2 px-4 bg-[#BB86FC] hover:opacity-85 text-white rounded transition-colors mt-4"

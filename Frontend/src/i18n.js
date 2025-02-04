@@ -46,6 +46,8 @@ i18n
                     folders_completed: "Folders completed",
                     emails_processed: "Emails processed",
                     last_email_subject: "Last email subject",
+                    //captcha
+                    captcha:"Invalid CAPTCHA. Please try again."
                 },
             },
             fr: {
@@ -87,6 +89,8 @@ i18n
                     folders_completed: "Dossiers complétés",
                     emails_processed: "Emails traités",
                     last_email_subject: "Dernier sujet d'email",
+                    //captcha
+                    captcha:"CAPTCHA invalide. Veuillez réessayer."
                 },
             },
         },

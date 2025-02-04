@@ -18,6 +18,7 @@
     "react-country-flag": "^3.1.0",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.4.0",
+    "react-turnstile": "^1.1.4",
     "tailwindcss": "^3.4.17",
     "zustand": "^5.0.3"
   },

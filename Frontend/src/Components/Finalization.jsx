@@ -39,6 +39,7 @@ export const Finalization = () => {
     const [progress, setProgress] = useState(initialProgress);
     const [serverStatus, setServerStatus] = useState(initialServerStatus);
 
+
     // Check server status
     const checkServer = async () => {
         try {
