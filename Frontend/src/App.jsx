@@ -21,7 +21,14 @@ function App() {
         i18n.changeLanguage(lng);
     };
 
-     const {Etape} = useStore()
+     const {Etape,setEtape} = useStore()
+
+
+    const GoToEtape = (EtapeToGo) =>{
+         if (Etape > EtapeToGo){
+             setEtape(EtapeToGo)
+         }
+    }
 
   return (
       <div className={"bg-[#0d1117] min-h-screen w-screen"}>
@@ -68,10 +75,10 @@ function App() {
 
                       <div className="mt-10 mx-auto flex flex-col w-3/4 bg-[#1e1e1e] rounded-2xl p-6">
                           {/* Stepper */}
-                          <div className="flex justify-center w-full mb-8">
+                          <div className="flex justify-center w-full mb-8 cursor-pointer">
 
                               <ol className="flex items-center justify-center w-full px-2 py-4 sm:p-6 space-x-2 sm:space-x-4 text-xs sm:text-sm md:text-lg font-medium text-center text-white">
-                                  <li className={`flex items-center  ${Etape === 0 ? "text-[#BB86FC]":Etape >= 1 ? "text-green-500" : "text-white" } `}>
+                                  <li onClick={()=>GoToEtape(0)} className={`flex items-center  ${Etape === 0 ? "text-[#BB86FC]":Etape >= 1 ? "text-green-500" : "text-white" } `}>
         <span
             className={`flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs ${Etape === 0 ? "text-[#BB86FC] border-[#BB86FC]":Etape >= 1 ? "text-green-500 border-green-500" : "text-white border-white" }  border-2  rounded-full shrink-0`}>
           1
@@ -94,7 +101,7 @@ function App() {
                                           />
                                       </svg>
                                   </li>
-                                  <li className={`flex items-center  ${Etape === 1 ? "text-[#BB86FC]":Etape >= 2 ? "text-green-500" : "text-white" } `}>
+                                  <li onClick={()=>{GoToEtape(1)}} className={`flex items-center  ${Etape === 1 ? "text-[#BB86FC]":Etape >= 2 ? "text-green-500" : "text-white" } `}>
         <span
             className={`flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs ${Etape === 1 ? "text-[#BB86FC] border-[#BB86FC]":Etape >= 2 ? "text-green-500 border-green-500" : "text-white border-white" }  border-2  rounded-full shrink-0`}>
           2
@@ -117,7 +124,7 @@ function App() {
                                           />
                                       </svg>
                                   </li>
-                                  <li className={`flex items-center  ${Etape === 2 ? "text-[#BB86FC]":Etape >= 3 ? "text-green-500" : "text-white" } `}>
+                                  <li onClick={()=>GoToEtape(2)} className={`flex items-center  ${Etape === 2 ? "text-[#BB86FC]":Etape >= 3 ? "text-green-500" : "text-white" } `}>
         <span
             className={`flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 me-2 sm:me-3 text-xs ${Etape === 2 ? "text-[#BB86FC] border-[#BB86FC]":Etape >=3 ? "text-green-500 border-green-500" : "text-white border-white" }  border-2  rounded-full shrink-0`}>
           3

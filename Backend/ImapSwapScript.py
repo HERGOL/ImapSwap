@@ -31,10 +31,17 @@ def check_connection(host, email_address, password):
         logging.info(f"Successfully connected to {host} for {email_address}")
         return connection
     except socket.timeout:
-        logging.error(f"Connection to {host} for {email_address} timed out after 60 seconds.")
+        error_msg = f"Connection to {host} for {email_address} timed out after 60 seconds."
+        logging.error(error_msg)
+        return None
+    except imaplib.IMAP4.error as e:
+        # Capture the specific IMAP error message
+        error_msg = f"Authentication error to {host} for {email_address}: {str(e)}"
+        logging.error(error_msg)
         return None
     except Exception as e:
-        logging.error(f"Connection error to {host} for {email_address}: {e}")
+        error_msg = f"Connection error to {host} for {email_address}: {str(e)}"
+        logging.error(error_msg)
         return None
 
 
@@ -66,14 +73,16 @@ def transfer_emails(task_id, source_host, source_email, source_password, dest_ho
         # Connect to IMAP servers
         source = check_connection(source_host, source_email, source_password)
         if not source:
+            error_msg = f"Unable to connect to the source server ({source_host}). Check host, email, and password."
             tasks_progress[task_id]["status"] = "Failed"
-            tasks_progress[task_id]["error"] = "Unable to connect to the source server."
+            tasks_progress[task_id]["error"] = error_msg
             return
 
         dest = check_connection(dest_host, dest_email, dest_password)
         if not dest:
+            error_msg = f"Unable to connect to the destination server ({dest_host}). Check host, email, and password."
             tasks_progress[task_id]["status"] = "Failed"
-            tasks_progress[task_id]["error"] = "Unable to connect to the destination server."
+            tasks_progress[task_id]["error"] = error_msg
             return
 
         # Select "INBOX" folder on the source server
@@ -212,9 +221,6 @@ def start_transfer():
 
 @app.route('/progress/<task_id>', methods=['GET'])
 def get_progress(task_id):
-    """
-    Retrieves the progress of a task.
-    """
     progress = tasks_progress.get(task_id)
     if not progress:
         return jsonify({"error": "Task not found."}), 404
